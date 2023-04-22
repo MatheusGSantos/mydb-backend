@@ -4,15 +4,14 @@ import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'e
 import cors from 'cors';
 
 import AppError from 'utils/AppError.js';
+import { routes } from 'routes/index.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.json('Hello World!');
-});
+app.use(routes);
 
 app.use((err: ErrorRequestHandler, req: Request, res: Response, _: NextFunction) => {
   if (err instanceof AppError) {
