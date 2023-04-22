@@ -1,4 +1,6 @@
-import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
+
+import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 
 import AppError from 'utils/AppError.js';
@@ -12,7 +14,7 @@ app.get('/', (req, res) => {
   res.json('Hello World!');
 });
 
-app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
+app.use((err: ErrorRequestHandler, req: Request, res: Response, _: NextFunction) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: 'error',

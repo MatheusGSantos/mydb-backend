@@ -10,45 +10,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model Role {
-  id        Int      @default(autoincrement()) @id
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userRoles UserRole[]
-  resourcePermissions ResourcePermission[]
+enum Role {
+  BASIC
+  ADMIN
 }
 
 model User {
   id        Int      @id @default(autoincrement())
   name      String
+  age       Int
   email     String   @unique
   password  String
+  roles     Role[]   @default([BASIC])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userRoles UserRole[]
-}
-
-model UserRole {
-  id        Int      @default(autoincrement()) @id
-  userId    Int
-  roleName  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  role      Role     @relation(fields: [roleName], references: [name])
 }
 
 model Resource {
-  id        Int      @default(autoincrement()) @id
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ResourcePermissions ResourcePermission[]
+  name               String               @id
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  ResourcePermission ResourcePermission[]
 }
 
-enum Permissions {
+enum Permission {
   CREATE
   READ
   UPDATE
@@ -56,15 +41,13 @@ enum Permissions {
 }
 
 model ResourcePermission {
-  id            Int      @default(autoincrement()) @id
-  resourceName  String
-  roleName      String
-  permission    Permissions
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  resource      Resource @relation(fields: [resourceName], references: [name])
-  role          Role     @relation(fields: [roleName], references: [name])
+  id           Int          @id @default(autoincrement())
+  resourceName String
+  permission   Permission[] @default([READ])
+  role         Role
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  resource     Resource     @relation(fields: [resourceName], references: [name])
 
-  @@unique([resourceName, permission], name: "unique_resource_permission")
+  @@unique([resourceName, role])
 }
-
