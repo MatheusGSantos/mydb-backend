@@ -8,3 +8,14 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
+
+export class UserUtilities {
+  // validateUserFields should check if the user object has all the required fields. If validateAll is false, it should only check if the user object has at least one of the required fields and parse against the schema.
+  static validateUserFields(user: User, validateAll = true) {
+    if (validateAll) {
+      userSchema.parse(user);
+    } else {
+      userSchema.partial().omit({ password: true }).parse(user);
+    }
+  }
+}

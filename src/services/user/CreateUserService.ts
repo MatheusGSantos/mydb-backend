@@ -1,6 +1,7 @@
 import { prisma } from 'database/index.js';
 import { User } from 'models/User.js';
 import AppError from 'utils/AppError.js';
+import { hash } from 'bcryptjs';
 
 export class CreateUserService {
   async execute(user: User) {
@@ -16,12 +17,14 @@ export class CreateUserService {
 
     if (userExists) throw new AppError('A user with this email already exists', 400);
 
+    const hashedPassword = await hash(password, 8);
+
     await prisma.user.create({
       data: {
         name,
         age,
         email,
-        password,
+        password: hashedPassword,
       },
     });
   }
