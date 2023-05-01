@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "nodenext",
     "target": "ES2020",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "./",
     "strict": true,
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
