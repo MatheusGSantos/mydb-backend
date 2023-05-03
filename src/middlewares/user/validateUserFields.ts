@@ -9,11 +9,11 @@ export function validateUserFields({ validateAll = true }) {
 
     try {
       UserUtilities.validateUserFields({ name, age, email, password }, validateAll);
-      next();
     } catch (error) {
       const path = (error as Record<string, any>).issues[0].path[0];
       const message = (error as Record<string, any>).issues[0].message;
       throw new AppError(`[${path}]: ${message}`, 400);
     }
+    next();
   };
 }

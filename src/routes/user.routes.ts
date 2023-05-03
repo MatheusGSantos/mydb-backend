@@ -7,6 +7,6 @@ export const usersRoutes = Router();
 const usersController = new UserController();
 
 usersRoutes.get('/:userId?', usersController.show);
-usersRoutes.post('/', validateUserFields, usersController.create);
+usersRoutes.post('/', validateUserFields({ validateAll: true }), usersController.create);
 usersRoutes.patch('/:userId', validateUserFields({ validateAll: false }), usersController.update);
 usersRoutes.delete('/:userId', usersController.delete);
