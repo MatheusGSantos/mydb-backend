@@ -21,7 +21,6 @@ export class AuthenticateUserService {
       select: {
         id: true,
         name: true,
-        age: true,
         email: true,
         password: true,
         roles: true,

@@ -5,9 +5,9 @@ import { upperCaseFirstLetter } from 'utils/helpers';
 
 export class UpdateUserService {
   async execute(userId: string, user: Omit<User, 'password'>) {
-    const { name, age, email } = user;
+    const { name, email } = user;
 
-    if (!name && !age && !email) throw new AppError('Update action needs at least one attribute. Got none.', 400);
+    if (!name && !email) throw new AppError('Update action needs at least one attribute. Got none.', 400);
 
     try {
       await prisma.user.update({
@@ -16,7 +16,6 @@ export class UpdateUserService {
         },
         data: {
           name,
-          age,
           email,
         },
       });

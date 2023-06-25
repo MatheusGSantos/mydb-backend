@@ -10,7 +10,6 @@ export class ShowUserService {
         select: {
           id: true,
           name: true,
-          age: true,
           email: true,
           roles: true,
         },
@@ -23,7 +22,6 @@ export class ShowUserService {
         select: {
           id: true,
           name: true,
-          age: true,
           email: true,
           roles: true,
         },

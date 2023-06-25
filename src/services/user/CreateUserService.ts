@@ -5,9 +5,9 @@ import { hash } from 'bcryptjs';
 
 export class CreateUserService {
   async execute(user: User) {
-    const { name, age, email, password } = user;
+    const { name, email, password } = user;
 
-    if (!name || !age || !email || !password) throw new AppError('Missing required fields', 400);
+    if (!name || !email || !password) throw new AppError('Missing required fields', 400);
 
     const userExists = await prisma.user.findUnique({
       where: {
@@ -22,7 +22,6 @@ export class CreateUserService {
     await prisma.user.create({
       data: {
         name,
-        age,
         email,
         password: hashedPassword,
       },

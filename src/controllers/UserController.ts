@@ -24,11 +24,11 @@ export class UserController {
 
   async update(request: Request, response: Response): Promise<Response> {
     const { userId } = request.params;
-    const { name, age, email } = request.body;
+    const { name, email } = request.body;
 
     const updateUser = new UpdateUserService();
 
-    await updateUser.execute(userId, { name, age, email });
+    await updateUser.execute(userId, { name, email });
 
     return response.status(200).json();
   }

@@ -1,10 +1,11 @@
 {
-  "name": "mydb",
+  "name": "rentx-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "start:dev": "tsx watch src/server.ts",
     "build": "tsup src",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
