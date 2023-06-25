@@ -5,11 +5,16 @@ import cors from 'cors';
 
 import AppError from 'utils/AppError.js';
 import { routes } from 'routes/index.js';
+import { logger } from 'utils/logger';
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+if (['development', undefined].includes(process.env.NODE_ENV)) {
+  app.use(logger);
+}
 
 app.use(routes);
 
@@ -20,8 +25,6 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, _: NextFunction)
       message: err.message,
     });
   }
-
-  console.error(err);
 
   return res.status(500).json({
     status: 'error',
