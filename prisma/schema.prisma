@@ -8,45 +8,56 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
 
-enum Role {
-  BASIC
-  ADMIN
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  roles     Role[]   @default([BASIC])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String       @id @default(uuid())
+  name                String
+  email               String       @unique
+  password            String
+  driverLicense       String
+  isAdmin             Boolean      @default(false)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  rentals             Rentals[]
 }
 
-model Resource {
-  name               String               @id
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  ResourcePermission ResourcePermission[]
+model Cars {
+  id                  String       @id @default(uuid())
+  name                String
+  categoryName        Categories   @relation(fields: [categoryId], references: [id])
+  categoryId          String
+  carImage            String  
+  description         String  
+  dailyRate           Float 
+  fineAmount          Float 
+  brand               String  
+  licensePlate        String  
+  available           Boolean       @default(true)
+  createdAt           DateTime      @default(now())
+  rentals             Rentals[] 
 }
 
-enum Permission {
-  CREATE
-  READ
-  UPDATE
-  DELETE
+model Categories {
+  id                  String        @id @default(uuid())
+  name                String        @unique
+  icon                String
+  createdAt           DateTime      @default(now())
+  description         String
+  cars                Cars[]
 }
 
-model ResourcePermission {
-  id           Int          @id @default(autoincrement())
-  resourceName String
-  permission   Permission[] @default([READ])
-  role         Role
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  resource     Resource     @relation(fields: [resourceName], references: [name])
-
-  @@unique([resourceName, role])
+model Rentals {
+  id                  String        @id @default(uuid())
+  car                 Cars          @relation(fields: [carId], references: [id])
+  carId               String
+  user                User          @relation(fields: [userId], references: [id])
+  userId              String
+  startDate           DateTime
+  endDate             DateTime
+  expectedReturnDate  DateTime
+  total               Float
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now())
 }
