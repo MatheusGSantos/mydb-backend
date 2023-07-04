@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Cars" ALTER COLUMN "carImage" DROP NOT NULL,
+ALTER COLUMN "fineAmount" DROP NOT NULL;

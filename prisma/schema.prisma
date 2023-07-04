@@ -28,10 +28,10 @@ model Cars {
   name                String
   categoryName        Categories   @relation(fields: [categoryId], references: [id])
   categoryId          String
-  carImage            String  
+  carImage            String?  
   description         String  
   dailyRate           Float 
-  fineAmount          Float 
+  fineAmount          Float? 
   brand               String  
   licensePlate        String  
   available           Boolean       @default(true)
