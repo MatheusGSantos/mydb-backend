@@ -1,17 +1,32 @@
-import { prisma } from "database";
-import { AvailablesCarsRequestDTO, NewCarDTO } from "./ICarRepository";
-import AppError from "utils/AppError";
-import { Prisma } from "@prisma/client";
+import { ICarsRepository} from "./ICarRepository";
+import { prisma } from "../../database";
+import { NewCarDTO } from "dtos/cars/NewCarDTO";
+import { AvailablesCarsRequestDTO } from "dtos/cars/AvailablesCarsRequestDTO";
 
-export default class CarRepository {
+export default class CarRepository implements ICarsRepository {
   async getAvailablesCar(data: AvailablesCarsRequestDTO) {
     const {name, brand, category} = data;
 
     const cars = await prisma.cars.findMany({
+      select: {
+        id: true,
+        name: true,
+        brand: true,
+        dailyRate: true,
+        fineAmount: true,
+        licensePlate: true,
+        categoryId: true,
+        carImage: true,
+        available: true
+      },
       where: {
         available: true,
-        name,
-        brand,
+        name: {
+          contains: name
+        },
+        brand: {
+          contains: brand
+        },
         categoryName: {
           name: category
         }
@@ -34,7 +49,6 @@ export default class CarRepository {
       fineAmount,
       brand,
       licensePlate,
-      available
     } = data;
 
     const newCar = await prisma.cars.create({
@@ -51,12 +65,11 @@ export default class CarRepository {
         fineAmount,
         brand,
         licensePlate,
-        available
       },
       include: {
         categoryName: true
       }
-    }).catch((e: Prisma.PrismaClientKnownRequestError) => {throw new AppError(`Invalid fields ${e.meta?.target}`, 404)});
+    });
 
     return newCar
   }

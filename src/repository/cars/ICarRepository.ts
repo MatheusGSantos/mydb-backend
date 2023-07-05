@@ -1,17 +1,7 @@
-export interface AvailablesCarsRequestDTO {
-  brand?: string;
-  name?: string;
-  category?: string;
-}
+import { AvailablesCarsRequestDTO } from "dtos/cars/AvailablesCarsRequestDTO";
+import { NewCarDTO } from "dtos/cars/NewCarDTO";
 
-export interface NewCarDTO {
-  name: string;
-  categoryId: string;
-  carImage?: string;
-  description: string;
-  dailyRate: number;
-  fineAmount?: number;
-  brand: string;
-  licensePlate: string;
-  available: boolean;
+export interface ICarsRepository {
+  getAvailablesCar: (data: AvailablesCarsRequestDTO) => Promise<any>;
+  saveNewCar: (data: NewCarDTO) => Promise<any>;
 }
