@@ -33,13 +33,13 @@ model Cars {
   dailyRate    Float
   description  String
   fineAmount   Float
-  licensePlate String
+  licensePlate String  @unique
   name         String
 
   createdAt DateTime @default(now())
 
-  categoryName Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  rentals      Rentals[]
+  category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  rentals  Rentals[]
 }
 
 model Categories {
@@ -67,4 +67,6 @@ model Rentals {
 
   car  Cars @relation(fields: [carId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([carId, startDate])
 }

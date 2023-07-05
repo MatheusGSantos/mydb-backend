@@ -11,7 +11,6 @@ export class ShowUserService {
           id: true,
           name: true,
           email: true,
-          roles: true,
         },
       });
     } else {

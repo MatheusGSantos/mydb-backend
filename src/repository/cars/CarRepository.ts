@@ -8,17 +8,6 @@ export default class CarRepository implements ICarsRepository {
     const {name, brand, category} = data;
 
     const cars = await prisma.cars.findMany({
-      select: {
-        id: true,
-        name: true,
-        brand: true,
-        dailyRate: true,
-        fineAmount: true,
-        licensePlate: true,
-        categoryId: true,
-        carImage: true,
-        available: true
-      },
       where: {
         available: true,
         name: {
@@ -27,13 +16,27 @@ export default class CarRepository implements ICarsRepository {
         brand: {
           contains: brand
         },
-        categoryName: {
+        category: {
           name: category
         }
       },
-      include: {
-        categoryName: true
-      }
+      select: {
+        id: true,
+        name: true,
+        brand: true,
+        available: true,
+        carImage: true,
+        dailyRate: true,
+        description: true,
+        licensePlate: true,
+        fineAmount: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      },
     });
 
     return cars;
@@ -54,20 +57,13 @@ export default class CarRepository implements ICarsRepository {
     const newCar = await prisma.cars.create({
       data: {
         name,
-        categoryName: {
-          connect: {
-            id: categoryId
-          }
-        },
+        categoryId,
         carImage,
         description,
         dailyRate,
         fineAmount,
         brand,
         licensePlate,
-      },
-      include: {
-        categoryName: true
       }
     });
 
