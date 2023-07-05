@@ -1,5 +1,5 @@
+import { NewCarDTO } from "dtos/cars/NewCarDTO";
 import CarRepository from "repository/cars/CarRepository";
-import { NewCarDTO } from "repository/cars/ICarRepository";
 
 export class CreateCarService {
   async execute(data: NewCarDTO) {
