@@ -4,5 +4,11 @@ import { prisma } from "../../database";
 
 export default class CategoryRepository implements ICategoryRepository {
   saveNewCategory: (data: NewCategoryDTO) => Promise<void>;
-  retrieveAllCategories: () => Promise<{ name: string; description: string; id: string; icon: string; }[]>;
+
+  async retrieveAllCategories() {
+    const categories = await prisma.categories.findMany();
+
+    return categories;
+  }
+
 }
