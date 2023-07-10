@@ -67,6 +67,4 @@ model Rentals {
 
   car  Cars @relation(fields: [carId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([carId, startDate])
 }
