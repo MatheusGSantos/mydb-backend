@@ -1,5 +1,5 @@
 import { NewCategoryDTO } from "dtos/categories/NewCategoryDTO";
-import { Category } from "models/Category";
+import { Category } from "models/Category/Category";
 
 export interface ICategoryRepository {
   saveNewCategory: (data: NewCategoryDTO) => Promise<void>;

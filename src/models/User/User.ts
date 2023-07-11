@@ -10,6 +10,7 @@ export const userSchema = z.object({
 });
 
 export type User = z.infer<typeof userSchema>;
+
 const defaultValuesToOmitOnValidate: Record<string, boolean> = {id: true, isAdmin: true};
 
 export class UserUtilities {

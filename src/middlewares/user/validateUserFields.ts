@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { User, UserUtilities, ommitableAttrs } from 'models/User.js';
+import { User, UserUtilities, ommitableAttrs } from 'models/User/User.js';
 
 import AppError from 'utils/AppError.js';
 
