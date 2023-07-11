@@ -1,5 +1,5 @@
 import { NewRentalDTO } from "dtos/rentals/NewRentalDTO";
-import { Rental } from "models/Rental/Rental";
+import { Rental } from "models/Rental";
 
 export interface IRentalsRepository {
   saveNewRental: (data: NewRentalDTO) => Promise<Rental>;

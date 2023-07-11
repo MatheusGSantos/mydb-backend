@@ -23,7 +23,6 @@ export class AuthenticateUserService {
         name: true,
         email: true,
         password: true,
-        roles: true,
       },
     });
 

@@ -1,5 +1,5 @@
 import { prisma } from 'database/index.js';
-import { User } from 'models/User/UserSchema.js';
+import { User } from 'models/User';
 import AppError from 'utils/AppError.js';
 import { upperCaseFirstLetter } from 'utils/helpers';
 

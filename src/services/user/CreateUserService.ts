@@ -1,7 +1,7 @@
 import { prisma } from 'database/index.js';
-import { User } from 'models/User/UserSchema.js';
 import AppError from 'utils/AppError.js';
 import { hash } from 'bcryptjs';
+import { User } from 'models/User';
 
 export class CreateUserService {
   async execute(user: User) {
