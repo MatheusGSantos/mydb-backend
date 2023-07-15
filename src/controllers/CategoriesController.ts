@@ -18,6 +18,6 @@ export class CategoriesController {
 
     await createNewCategoryService.execute({ name, icon, description });
   
-    return response.json('Created')
+    return response.status(201).json()
   }
 }

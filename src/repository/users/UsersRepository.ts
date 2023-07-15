@@ -4,8 +4,23 @@ import { prisma } from "../../database";
 import { IUsersRepository } from "./IUsersRepository";
 import { User } from "models/User";
 
-
 export default class UsersRepository implements IUsersRepository {
+  async findByEmail(email: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        isAdmin: true,
+        driverLicense: true,
+      },
+    });
+  }
+
   async saveNewUser(data: NewUserDTO): Promise<void> {
     await prisma.user.create({
       data: { ...data },

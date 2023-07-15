@@ -1,4 +1,5 @@
-import { z } from 'zod';
+import AppError from 'utils/AppError';
+import { ZodError, z } from 'zod';
 
 type ShapeOf<T> = T extends z.ZodObject<infer Shape> ? Shape : never;
 type ShapeKeys<T extends z.ZodType<any, any>> = keyof ShapeOf<T>;
@@ -58,26 +59,30 @@ export class UtilityClass<Schema extends z.AnyZodObject> {
 
     const safeObject = this.getSafeObject(obj);
 
-    if (pick.length > 0) {
-      const pickObject: Record<ShapeKeys<Schema>, true> = {} as Record<ShapeKeys<Schema>, true>;
-
-      for (const key of pick) {
-        pickObject[key] = true;
+    try {
+      if (pick.length > 0) {
+        const pickObject: Record<ShapeKeys<Schema>, true> = {} as Record<ShapeKeys<Schema>, true>;
+  
+        for (const key of pick) {
+          pickObject[key] = true;
+        }
+  
+        return this.schema.pick(pickObject).parse(safeObject);
       }
-
-      return this.schema.pick(pickObject).parse(safeObject);
-    }
-
-    if (omit.length > 0) {
-      const omitObject: Record<ShapeKeys<Schema>, true> = {} as Record<ShapeKeys<Schema>, true>;
-
-      for (const key of omit) {
-        omitObject[key] = true;
+  
+      if (omit.length > 0) {
+        const omitObject: Record<ShapeKeys<Schema>, true> = {} as Record<ShapeKeys<Schema>, true>;
+  
+        for (const key of omit) {
+          omitObject[key] = true;
+        }
+  
+        return this.schema.omit(omitObject).parse(safeObject);
       }
-
-      return this.schema.omit(omitObject).parse(safeObject);
+  
+      return this.schema.parse(safeObject); 
+    } catch (error: any) {
+      if (error instanceof ZodError) throw new AppError(`${error?.issues[0]?.path[0]}: ${error?.issues[0]?.message}`, 400);
     }
-
-    return this.schema.parse(safeObject);
   }
 }

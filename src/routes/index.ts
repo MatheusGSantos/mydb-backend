@@ -7,6 +7,6 @@ import { categoriesRoutes } from './categories.routes.js';
 export const routes = Router();
 
 routes.use('/users', usersRoutes);
-routes.use('/auth', authRoutes);
+routes.use('/sessions', authRoutes);
 routes.use('/cars', carRoutes);
 routes.use('/categories', categoriesRoutes);

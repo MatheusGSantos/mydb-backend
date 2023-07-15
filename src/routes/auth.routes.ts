@@ -5,4 +5,4 @@ export const authRoutes = Router();
 
 const authController = new AuthController();
 
-authRoutes.post('/signin', authController.signIn);
+authRoutes.post('/', authController.signIn);
