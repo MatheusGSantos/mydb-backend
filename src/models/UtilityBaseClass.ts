@@ -13,8 +13,8 @@ interface IValidateOptions<Schema extends z.AnyZodObject> {
  * @template Schema - The Zod schema to use for validation and sanitization.
  */
 export class UtilityClass<Schema extends z.AnyZodObject> {
-  public schema: Schema;
-  public schemaKeys: ShapeKeys<Schema>[];
+  private schema: Schema;
+  private schemaKeys: ShapeKeys<Schema>[];
 
   /**
    * Creates a new instance of the UtilityClass.
