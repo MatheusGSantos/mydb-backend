@@ -4,6 +4,10 @@ import { verify } from 'jsonwebtoken';
 
 import AppError from 'utils/AppError';
 
+interface IPayload {
+  sub: string;
+}
+
 export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
   const authHeader = request.headers.authorization;
 
@@ -14,7 +18,7 @@ export async function ensureAuthenticated(request: Request, response: Response, 
   const [, token] = authHeader.split(' ');
 
   try {
-    const { sub: user_id } = verify(token, authConfig.jwt.secret);
+    const { sub: user_id } = verify(token, authConfig.jwt.secret) as IPayload;
 
     if (typeof user_id !== 'string') {
       throw new AppError('Failed token verification', 401);

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const rentalSchema = z.object({
+const RentalSchema = z.object({
   id: z.string().uuid(),
   carId: z.string().uuid(),
   endDate: z.string().datetime(),
@@ -10,4 +10,4 @@ export const rentalSchema = z.object({
   total: z.number(),
 });
 
-export type Rental = z.infer<typeof rentalSchema>;
+export default RentalSchema;

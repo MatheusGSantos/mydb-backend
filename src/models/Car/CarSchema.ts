@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export const carSchema = z.object({
+// Define the schema for the Car object using the Zod library.
+const CarSchema = z.object({
   id: z.string().uuid(),
   available: z.boolean().default(true),
   brand: z.string(),
@@ -13,4 +14,4 @@ export const carSchema = z.object({
   name: z.string(),
 });
 
-export type Car = z.infer<typeof carSchema>;
+export default CarSchema;
