@@ -4,7 +4,7 @@ import CategoryRepository from "repository/categories/CategoryRepository";
 
 export class CreateNewCategoryService {
   async execute(data: NewCategoryDTO): Promise<void> {
-    const categoryRepository: CategoryRepository = new CategoryRepository;
+    const categoryRepository: CategoryRepository = new CategoryRepository();
 
     CategoryUtilities.validate(data, {
       omit: ['id']

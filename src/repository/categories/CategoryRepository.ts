@@ -9,7 +9,7 @@ export default class CategoryRepository implements ICategoryRepository {
     return categories;
   }
 
-  async saveNewCategory(data: NewCategoryDTO): Promise<void> {
+  async saveNewCategory(data: NewCategoryDTO) {
     await prisma.categories.create({
       data: {
         ...data

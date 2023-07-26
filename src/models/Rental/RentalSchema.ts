@@ -3,11 +3,11 @@ import { z } from 'zod';
 const RentalSchema = z.object({
   id: z.string().uuid(),
   carId: z.string().uuid(),
-  endDate: z.string().datetime(),
+  endDate: z.string().datetime({offset: true}).nullable(),
   userId: z.string().uuid(),
-  expectedReturnDate: z.string().datetime(),
-  startDate: z.string().datetime(),
-  total: z.number(),
+  expectedReturnDate: z.string().datetime({offset: true}),
+  startDate: z.string().datetime({offset: true}),
+  total: z.number().nullable(),
 });
 
 export default RentalSchema;

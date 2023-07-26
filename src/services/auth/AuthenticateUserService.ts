@@ -1,6 +1,6 @@
 import { compare } from 'bcryptjs';
 
-import { GenerateToken } from 'providers/GenerateToken';
+import { GenerateToken } from 'providers/GenerateTokenProvider/GenerateToken';
 import UsersRepository from 'repository/users/UsersRepository';
 
 import AppError from 'utils/AppError.js';

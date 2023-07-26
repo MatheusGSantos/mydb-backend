@@ -42,6 +42,16 @@ export default class CarRepository implements ICarsRepository {
     return cars;
   }
 
+  async getCarById(carId: string) {
+    const car = await prisma.cars.findUnique({
+      where: {
+        id: carId
+      },
+    });
+
+    return car;
+  }
+
   async saveNewCar(data: NewCarDTO) {
     const {
       name,
@@ -68,6 +78,19 @@ export default class CarRepository implements ICarsRepository {
     });
 
     return newCar
+  }
+
+  async updateAvailableCar(carId: string, available: boolean) {
+    const car = await prisma.cars.update({
+      where: {
+        id: carId
+      },
+      data: {
+        available
+      }
+    });
+
+    return car;
   }
 }
 

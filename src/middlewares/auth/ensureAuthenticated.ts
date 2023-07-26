@@ -3,6 +3,7 @@ import { authConfig } from 'config/auth';
 import { verify } from 'jsonwebtoken';
 
 import AppError from 'utils/AppError';
+import { UserUtilities } from 'models/User';
 
 interface IPayload {
   sub: string;
@@ -20,9 +21,9 @@ export async function ensureAuthenticated(request: Request, response: Response, 
   try {
     const { sub: user_id } = verify(token, authConfig.jwt.secret) as IPayload;
 
-    if (typeof user_id !== 'string') {
-      throw new AppError('Failed token verification', 401);
-    }
+    UserUtilities.validate({ id: user_id }, {
+      pick: ['id']
+    });
 
     request.user = {
       id: user_id,
