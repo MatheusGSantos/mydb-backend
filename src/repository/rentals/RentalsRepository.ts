@@ -4,6 +4,19 @@ import { Rental } from "models/Rental";
 import { prisma } from "../../database";
 
 export default class RentalsRepository implements IRentalsRepository {
+  async getRentalById(rentalId: string) {
+    const rental = await prisma.rentals.findUnique({
+      where: {
+        id: rentalId
+      },
+      include: {
+        car: true
+      }
+    });
+
+    return rental;
+  }
+
   async saveNewRental(data: NewRentalDTO) {
     await prisma.rentals.create({
       data: {

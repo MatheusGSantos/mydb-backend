@@ -8,3 +8,4 @@ const rentalController = new RentalController();
 
 rentalRoutes.post("/", ensureAuthenticated, rentalController.saveNewRental);
 rentalRoutes.get("/user",  ensureAuthenticated, rentalController.getAllUserRentals);
+rentalRoutes.post("/end/:rentalId", ensureAuthenticated, rentalController.endRental);

@@ -10,6 +10,7 @@ interface OutputRental extends Omit<Rental, 'endDate' | 'startDate' | 'expectedR
 }
 
 export interface IRentalsRepository {
+  getRentalById: (rentalId: string) => Promise<OutputRental | null>;
   saveNewRental: (data: NewRentalDTO) => Promise<void>;
   retrieveUserRentals: (userId: string) => Promise<OutputRental[]>;
   updateRental: (rentalId: string, data: Omit<Partial<Rental>, 'id'>) => Promise<void>;
