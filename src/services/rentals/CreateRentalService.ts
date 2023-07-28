@@ -29,8 +29,6 @@ export class CreateRentalService {
 
     const dateNow = dateProvider.dateNow();
 
-    console.log('dateNow', dateNow)
-
     if (dateProvider.compareInHours(dateNow, data.expectedReturnDate) < 24) {
       throw new AppError('Invalid return date. The minimum rental period is 24 hours');
     }

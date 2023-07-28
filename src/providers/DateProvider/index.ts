@@ -10,8 +10,6 @@ export default class DayjsDateProvider implements IDateProvider {
     const endDateUtc = this.convertToUTC(endDate);
     const startDateUtc = this.convertToUTC(startDate);
 
-    console.log({endDateUtc, startDateUtc, diff: dayjs(endDateUtc).diff(startDateUtc, "hours")});
-
     return dayjs(endDateUtc).diff(startDateUtc, "hours");
   }
 
