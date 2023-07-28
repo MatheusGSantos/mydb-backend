@@ -14,7 +14,7 @@ export class CarController {
   }
 
   async saveNewCar(request: Request, response: Response): Promise<Response> {
-    const { name, categoryId, carImage, description, dailyRate, fineAmount, brand, licensePlate } = request.body as Record<string, any>;
+    const { name, categoryId, carImage, description, dailyRate, fineAmount, brand, licensePlate } = request.body;
 
     const createCarService = new CreateCarService();
     
