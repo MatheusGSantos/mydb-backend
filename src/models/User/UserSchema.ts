@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const UserSchema = z.object({
   id: z.string().uuid(),
-  driverLicense: z.string(),
+  driverLicense: z.string().regex(/^\d{11}$/, 'Invalid driver license number'),
   email: z.string().email('Invalid email address'),
   name: z.string(),
   isAdmin: z.boolean().default(false),
