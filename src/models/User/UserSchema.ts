@@ -10,28 +10,3 @@ const UserSchema = z.object({
 });
 
 export default UserSchema;
-
-// const defaultValuesToOmitOnValidate: Record<string, boolean> = {id: true, isAdmin: true};
-
-// export class UserUtilities {
-//   public static validate(user: Partial<User>, attrsToOmit: (keyof User)[] = []) {
-//     return UserSchema.omit(
-//       {
-//         ...attrsToOmit.reduce(
-//           (acc, current) => {
-//             acc[current] = true;
-//             return acc;
-//           },
-//           {} as Record<keyof User, any>
-//          ),
-//         ...defaultValuesToOmitOnValidate
-//       }
-//     )
-//     .parse(user);
-//   }
-
-//   public static createUserWithoutPassword(user: User) {
-//     const { password:_ , ...userWithoutPassword } = user;
-//     return userWithoutPassword;
-//   }
-// }
