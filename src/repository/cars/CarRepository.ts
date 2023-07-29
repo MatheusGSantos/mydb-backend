@@ -4,7 +4,7 @@ import { NewCarDTO } from "dtos/cars/NewCarDTO";
 import { AvailablesCarsRequestDTO } from "dtos/cars/AvailablesCarsRequestDTO";
 
 export default class CarRepository implements ICarsRepository {
-  async getAvailablesCar(data: AvailablesCarsRequestDTO) {
+  async getAvailableCars(data: AvailablesCarsRequestDTO) {
     const {name, brand, category} = data;
 
     const cars = await prisma.cars.findMany({

@@ -6,14 +6,23 @@ import CarRepository from "repository/cars/CarRepository";
 export class RetrieveCarService {
   async execute(data: AvailablesCarsRequestDTO) {
     const carsRepository = new CarRepository();
+    const { brand, name, category } = data;
 
-    const validatedData = Object.entries(data).filter(([_, value]) => value);
-    const carValidateOptions = validatedData.length > 0 ? {pick: Object.keys(validatedData).filter(key => ['brand', 'name'].includes(key)) as (keyof Car)[]} : undefined;
-    const categoryValidateOptions = Object.keys(validatedData).includes('category') ? {pick: ['name'] as (keyof Category)[]} : undefined;
+    if (brand || name) {
+      const toValidate = [];
 
-    CarUtilities.validate(data, carValidateOptions)
-    CategoryUtilities.validate(data, categoryValidateOptions)
+      brand && toValidate.push('brand');
+      name && toValidate.push('name');
 
-    return carsRepository.getAvailablesCar(data);
+      const carValidateOptions = {pick: toValidate as (keyof Car)[]};
+      CarUtilities.validate(data, carValidateOptions);
+    }
+
+    if (category) {
+      const categoryValidateOptions = {pick: ['name'] as (keyof Category)[]};
+      CategoryUtilities.validate({name: data.category}, categoryValidateOptions);
+    }
+
+    return carsRepository.getAvailableCars(data);
   }
 }
