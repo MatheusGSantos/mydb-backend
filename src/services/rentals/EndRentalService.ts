@@ -12,6 +12,7 @@ export class EndRentalService {
       pick: ['id', 'userId']
     })
 
+    // check if the rental exists and is related to the user
     const rental = await rentalRepository.getRentalById(rentalId);
 
     if (!rental) {
@@ -26,18 +27,22 @@ export class EndRentalService {
       throw new AppError('This rental has already ended');
     }
 
+    // checking if the dates are valid
     const dateProvider = new DayjsDateProvider();
 
-    const dateNow = dateProvider.dateNow();
+    // 12 p.m. of the current day
+    const now = dateProvider.dateNow();
 
-    let daily = dateProvider.compareInHours(dateNow, rental.startDate);
+    let daily = Math.ceil(dateProvider.compareInHours(now, rental.startDate) / 24);
 
     // minimum of 1 day of rental fee
     if (daily <= 0) {
       daily = 1;
     }
 
-    const delay = dateProvider.compareInDays(dateNow, rental.expectedReturnDate);
+    const hoursOfTolerance = 2;
+
+    const delay = Math.ceil(dateProvider.compareInHours(rental.expectedReturnDate, dateProvider.subtractHours(now, hoursOfTolerance)) / 24);
 
     let total = 0;
 
@@ -48,7 +53,7 @@ export class EndRentalService {
 
     total += daily * rental.car.dailyRate;
 
-    rental.endDate = dateNow;
+    rental.endDate = now;
     rental.total = total;
 
     await rentalRepository.updateRental(rentalId, RentalUtilities.getSafeObject(rental));
