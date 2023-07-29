@@ -18,7 +18,7 @@ export class CarController {
 
     const createCarService = new CreateCarService();
     
-    const newCar = createCarService.execute({ name, categoryId, carImage, description, dailyRate, fineAmount, brand, licensePlate });
+    const newCar = await createCarService.execute({ name, categoryId, carImage, description, dailyRate, fineAmount, brand, licensePlate });
 
     return response.json(newCar);
   }
