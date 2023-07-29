@@ -33,10 +33,10 @@ async function main() {
   })
 
   await prisma.cars.upsert({
-    where: { licensePlate: 'ABC-1234' },
+    where: { licensePlate: 'AAA9A99' },
     update: {},
     create: {
-      licensePlate: 'ABC-1234',
+      licensePlate: 'AAA9A99',
       brand: 'Fiat',
       dailyRate: 100,
       fineAmount: 50,
@@ -49,10 +49,10 @@ async function main() {
   })
 
   await prisma.cars.upsert({
-    where: { licensePlate: 'ABC-5678' },
+    where: { licensePlate: 'AAA9B99' },
     update: {},
     create: {
-      licensePlate: 'ABC-5678',
+      licensePlate: 'AAA9B99',
       brand: 'Honda',
       dailyRate: 150,
       fineAmount: 75,
@@ -64,10 +64,10 @@ async function main() {
     },
   })
   await prisma.cars.upsert({
-    where: { licensePlate: 'ABC-9101' },
+    where: { licensePlate: 'AAA9C99' },
     update: {},
     create: {
-      licensePlate: 'ABC-9101',
+      licensePlate: 'AAA9C99',
       brand: 'McLaren',
       dailyRate: 150,
       fineAmount: 75,
