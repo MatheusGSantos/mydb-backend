@@ -9,7 +9,7 @@ const CarSchema = z.object({
   dailyRate: z.number(),
   description: z.string(),
   fineAmount: z.number(),
-  licensePlate: z.string(),
+  licensePlate: z.string().regex(/^[A-Z]{3}\d[A-Z]\d{2}$/, 'Invalid license plate. The format should be "AAA9A99"'),
   name: z.string(),
 });
 
