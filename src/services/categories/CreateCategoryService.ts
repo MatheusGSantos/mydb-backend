@@ -1,6 +1,8 @@
+import { Prisma } from "@prisma/client";
 import { NewCategoryDTO } from "dtos/categories/NewCategoryDTO";
 import { CategoryUtilities } from "models/Category";
 import CategoryRepository from "repository/categories/CategoryRepository";
+import AppError from "utils/AppError";
 
 export class CreateNewCategoryService {
   async execute(data: NewCategoryDTO): Promise<void> {
@@ -10,6 +12,12 @@ export class CreateNewCategoryService {
       omit: ['id']
     })
 
-    return categoryRepository.saveNewCategory(data);
+    try {
+      return await categoryRepository.saveNewCategory(data)
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        throw new AppError('This category already exists')
+      }
+    }
   }
 }
