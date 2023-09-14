@@ -4,18 +4,27 @@ import { UserUtilities } from 'models/User';
 import { NewUserDTO } from 'dtos/users/NewUserDTO';
 import UsersRepository from 'repository/users/UsersRepository';
 
-export class CreateUserService {
-  async execute(user: NewUserDTO) {
-    const { name, email, password, driverLicense } = user;
+interface RequestDTO extends NewUserDTO {
+  repeatPassword: string;
+}
 
-    UserUtilities.validate({
-      name,
-      email,
-      password,
-      driverLicense,
-    }, {
-      omit: ['id', 'isAdmin'],
-    });
+export class CreateUserService {
+  async execute(data: RequestDTO) {
+    const { name, email, password, repeatPassword, driverLicense } = data;
+
+    UserUtilities.validate(
+      {
+        name,
+        email,
+        password,
+        driverLicense,
+      },
+      {
+        omit: ['id', 'isAdmin'],
+      },
+    );
+
+    if (password !== repeatPassword) throw new AppError('Passwords do not match', 400);
 
     const usersRepository = new UsersRepository();
 
