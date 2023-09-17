@@ -5,12 +5,12 @@ import { NewUserDTO } from 'dtos/users/NewUserDTO';
 import UsersRepository from 'repository/users/UsersRepository';
 
 interface RequestDTO extends NewUserDTO {
-  repeatPassword: string;
+  confirmPassword: string;
 }
 
 export class CreateUserService {
   async execute(data: RequestDTO) {
-    const { name, email, password, repeatPassword, driverLicense } = data;
+    const { name, email, password, confirmPassword, driverLicense } = data;
 
     UserUtilities.validate(
       {
@@ -24,7 +24,7 @@ export class CreateUserService {
       },
     );
 
-    if (password !== repeatPassword) throw new AppError('Passwords do not match', 400);
+    if (password !== confirmPassword) throw new AppError('Passwords do not match', 400);
 
     const usersRepository = new UsersRepository();
 

@@ -15,7 +15,7 @@ export class UserController {
   }
 
   async create(request: Request, response: Response): Promise<Response> {
-    const data = { ...UserUtilities.getSafeObject(request.body), repeatPassword: request.body?.repeatPassword };
+    const data = { ...UserUtilities.getSafeObject(request.body), confirmPassword: request.body?.confirmPassword };
     const createUserService = new CreateUserService();
 
     await createUserService.execute(data);
