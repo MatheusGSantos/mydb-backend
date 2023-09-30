@@ -1,8 +1,8 @@
-import { NewUserDTO } from "dtos/users/NewUserDTO";
-import { UpdateUserDTO } from "dtos/users/UpdateUserDTO";
-import { prisma } from "../../database";
-import { IUsersRepository } from "./IUsersRepository";
-import { User } from "models/User";
+import { NewUserDTO } from 'dtos/users/NewUserDTO';
+import { UpdateUserDTO } from 'dtos/users/UpdateUserDTO';
+import { prisma } from '../../database';
+import { IUsersRepository } from './IUsersRepository';
+import { User } from 'models/User';
 
 export default class UsersRepository implements IUsersRepository {
   async findByEmail(email: string): Promise<User | null> {
@@ -17,6 +17,7 @@ export default class UsersRepository implements IUsersRepository {
         password: true,
         isAdmin: true,
         driverLicense: true,
+        createdAt: true,
       },
     });
   }

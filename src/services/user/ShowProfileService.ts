@@ -1,4 +1,5 @@
 import { UserUtilities } from 'models/User';
+import RentalsRepository from 'repository/rentals/RentalsRepository';
 import UsersRepository from 'repository/users/UsersRepository';
 import AppError from 'utils/AppError.js';
 
@@ -12,8 +13,12 @@ export class ShowProfileService {
 
     if (!user) throw new AppError('User not found', 404);
 
+    const rentalsRepository = new RentalsRepository();
+
+    const numberOfRentals = await rentalsRepository.retrieveUserRentalsCount(userId);
+
     const { password: _, ...userWithoutPassword } = user;
-    
-    return userWithoutPassword;
+
+    return { numberOfRentals, ...userWithoutPassword };
   }
 }
