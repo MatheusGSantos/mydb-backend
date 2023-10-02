@@ -1,24 +1,24 @@
-import { ICarsRepository} from "./ICarRepository";
-import { prisma } from "../../database";
-import { NewCarDTO } from "dtos/cars/NewCarDTO";
-import { AvailablesCarsRequestDTO } from "dtos/cars/AvailablesCarsRequestDTO";
+import { ICarsRepository } from './ICarRepository';
+import { prisma } from '../../database';
+import { NewCarDTO } from 'dtos/cars/NewCarDTO';
+import { AvailablesCarsRequestDTO } from 'dtos/cars/AvailablesCarsRequestDTO';
 
 export default class CarRepository implements ICarsRepository {
   async getAvailableCars(data: AvailablesCarsRequestDTO) {
-    const {name, brand, category} = data;
+    const { name, brand, category } = data;
 
     const cars = await prisma.cars.findMany({
       where: {
         available: true,
         name: {
-          contains: name
+          contains: name,
         },
         brand: {
-          contains: brand
+          contains: brand,
         },
         category: {
-          name: category
-        }
+          name: category,
+        },
       },
       select: {
         id: true,
@@ -34,8 +34,9 @@ export default class CarRepository implements ICarsRepository {
           select: {
             id: true,
             name: true,
-          }
-        }
+            icon: true,
+          },
+        },
       },
     });
 
@@ -45,7 +46,7 @@ export default class CarRepository implements ICarsRepository {
   async getCarById(carId: string) {
     const car = await prisma.cars.findUnique({
       where: {
-        id: carId
+        id: carId,
       },
     });
 
@@ -53,16 +54,7 @@ export default class CarRepository implements ICarsRepository {
   }
 
   async saveNewCar(data: NewCarDTO) {
-    const {
-      name,
-      categoryId,
-      carImage,
-      description,
-      dailyRate,
-      fineAmount,
-      brand,
-      licensePlate,
-    } = data;
+    const { name, categoryId, carImage, description, dailyRate, fineAmount, brand, licensePlate } = data;
 
     const newCar = await prisma.cars.create({
       data: {
@@ -74,23 +66,22 @@ export default class CarRepository implements ICarsRepository {
         fineAmount,
         brand,
         licensePlate,
-      }
+      },
     });
 
-    return newCar
+    return newCar;
   }
 
   async updateAvailableCar(carId: string, available: boolean) {
     const car = await prisma.cars.update({
       where: {
-        id: carId
+        id: carId,
       },
       data: {
-        available
-      }
+        available,
+      },
     });
 
     return car;
   }
 }
-
