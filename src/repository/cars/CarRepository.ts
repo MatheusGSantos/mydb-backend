@@ -84,4 +84,12 @@ export default class CarRepository implements ICarsRepository {
 
     return car;
   }
+
+  async getCarBrands() {
+    const brands = await prisma.cars.groupBy({
+      by: ['brand'],
+    });
+
+    return brands.map((brand) => brand.brand);
+  }
 }
