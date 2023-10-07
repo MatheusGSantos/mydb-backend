@@ -3,23 +3,43 @@ import { prisma } from '../../database';
 import { NewCarDTO } from 'dtos/cars/NewCarDTO';
 import { AvailablesCarsRequestDTO } from 'dtos/cars/AvailablesCarsRequestDTO';
 
+type WhereClause = {
+  available: boolean;
+  name: { contains: string | undefined };
+  brand: { contains: string | undefined };
+  category: { name: string | undefined };
+  dailyRate?: { gte: number; lte: number };
+};
+
 export default class CarRepository implements ICarsRepository {
   async getAvailableCars(data: AvailablesCarsRequestDTO) {
-    const { name, brand, category } = data;
+    const { name, brand, category, priceRange } = data;
+
+    // Initialize the where clause with the filters that are always applied
+    const whereClause: WhereClause = {
+      available: true,
+      name: {
+        contains: name,
+      },
+      brand: {
+        contains: brand,
+      },
+      category: {
+        name: category,
+      },
+    };
+
+    // If priceRange is defined, split it into minPrice and maxPrice and add the dailyRate filter to the where clause
+    if (priceRange) {
+      const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+      whereClause['dailyRate'] = {
+        gte: minPrice,
+        lte: maxPrice,
+      };
+    }
 
     const cars = await prisma.cars.findMany({
-      where: {
-        available: true,
-        name: {
-          contains: name,
-        },
-        brand: {
-          contains: brand,
-        },
-        category: {
-          name: category,
-        },
-      },
+      where: whereClause,
       select: {
         id: true,
         name: true,
