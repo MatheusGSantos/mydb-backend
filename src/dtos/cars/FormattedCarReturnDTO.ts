@@ -1,15 +1,16 @@
 export interface FormattedCarReturnDTO {
   id: string;
-  available: boolean;
-  brand: string;
   name: string;
+  brand: string;
+  available: boolean;
   carImage: string;
-  description: string;
   dailyRate: number;
-  fineAmount: number;
+  description: string;
   licensePlate: string;
+  fineAmount: number;
   category: {
     id: string;
     name: string;
-  }
+    icon: string;
+  };
 }

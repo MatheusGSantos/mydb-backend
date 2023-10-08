@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 async function main() {
   const gasCategory = await prisma.categories.upsert({
@@ -10,7 +10,7 @@ async function main() {
       description: 'Carro movido a gasolina',
       icon: 'gas',
     },
-  })
+  });
 
   const electricCategory = await prisma.categories.upsert({
     where: { name: 'electric' },
@@ -20,7 +20,7 @@ async function main() {
       description: 'Carro movido a eletricidade',
       icon: 'electric',
     },
-  })
+  });
 
   const alcoholCategory = await prisma.categories.upsert({
     where: { name: 'alcohol' },
@@ -30,62 +30,62 @@ async function main() {
       description: 'Carro movido a alcool',
       icon: 'alcohol',
     },
-  })
+  });
 
   await prisma.cars.upsert({
     where: { licensePlate: 'AAA9A99' },
     update: {},
     create: {
       licensePlate: 'AAA9A99',
-      brand: 'Fiat',
-      dailyRate: 100,
-      fineAmount: 50,
-      categoryId: gasCategory.id,
-      name: 'Uno',
-      description: 'Carro popular da Fiat',
+      brand: 'Porsche',
+      dailyRate: 430,
+      fineAmount: 500,
+      categoryId: electricCategory.id,
+      name: 'Panamera 4',
+      description: 'Porsche Panamera 4 2015',
       available: true,
-      carImage: 'fiat-uno.png',
+      carImage: 'Porsche.png',
     },
-  })
+  });
 
   await prisma.cars.upsert({
     where: { licensePlate: 'AAA9B99' },
     update: {},
     create: {
       licensePlate: 'AAA9B99',
-      brand: 'Honda',
-      dailyRate: 150,
-      fineAmount: 75,
-      categoryId: electricCategory.id,
-      name: 'Civic',
-      description: 'Carro popular da Honda',
+      brand: 'Volvo',
+      dailyRate: 450,
+      fineAmount: 460,
+      categoryId: gasCategory.id,
+      name: 'XC90',
+      description: 'Volvo XC90 2019',
       available: true,
-      carImage: 'honda-civic.png',
+      carImage: 'Volvo.png',
     },
-  })
+  });
   await prisma.cars.upsert({
     where: { licensePlate: 'AAA9C99' },
     update: {},
     create: {
       licensePlate: 'AAA9C99',
-      brand: 'McLaren',
-      dailyRate: 150,
-      fineAmount: 75,
+      brand: 'Lamborghini',
+      dailyRate: 580,
+      fineAmount: 650,
       categoryId: alcoholCategory.id,
-      name: 'P1',
-      description: 'Carro da McLaren',
+      name: 'Huracan',
+      description: 'Lamborghini Huracan',
       available: true,
-      carImage: 'mclaren-p1.png',
+      carImage: 'Lambo.png',
     },
-  })
+  });
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
