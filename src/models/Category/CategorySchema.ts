@@ -5,6 +5,7 @@ const CategorySchema = z.object({
   description: z.string(),
   icon: z.string(),
   name: z.string(),
+  displayName: z.string(),
 });
 
 export default CategorySchema;

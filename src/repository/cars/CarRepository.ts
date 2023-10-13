@@ -5,15 +5,15 @@ import { AvailablesCarsRequestDTO } from 'dtos/cars/AvailablesCarsRequestDTO';
 
 type WhereClause = {
   available: boolean;
-  name: { contains: string | undefined };
-  brand: { contains: string | undefined };
-  category: { name: string | undefined };
+  name?: { contains: string | undefined };
+  brand?: { contains: string | undefined };
+  category?: { name: { in: string[] | undefined } };
   dailyRate?: { gte: number; lte: number };
 };
 
 export default class CarRepository implements ICarsRepository {
   async getAvailableCars(data: AvailablesCarsRequestDTO) {
-    const { name, brand, category, priceRange } = data;
+    const { name, brand, categories, priceRange } = data;
 
     // Initialize the where clause with the filters that are always applied
     const whereClause: WhereClause = {
@@ -24,14 +24,21 @@ export default class CarRepository implements ICarsRepository {
       brand: {
         contains: brand,
       },
-      category: {
-        name: category,
-      },
     };
+
+    if (categories) {
+      // If categories is defined, split it into an array and add the categories filter to the where clause
+      const categoriesArray = categories.split(',');
+      whereClause['category'] = {
+        name: {
+          in: categoriesArray,
+        },
+      };
+    }
 
     // If priceRange is defined, split it into minPrice and maxPrice and add the dailyRate filter to the where clause
     if (priceRange) {
-      const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+      const [minPrice, maxPrice] = priceRange.split(',').map(Number);
       whereClause['dailyRate'] = {
         gte: minPrice,
         lte: maxPrice,

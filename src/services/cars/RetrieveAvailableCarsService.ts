@@ -6,7 +6,7 @@ import CarRepository from 'repository/cars/CarRepository';
 export class RetrieveCarService {
   async execute(data: AvailablesCarsRequestDTO) {
     const carsRepository = new CarRepository();
-    const { brand, name, category, priceRange } = data;
+    const { brand, name, categories, priceRange } = data;
 
     if (brand || name) {
       const toValidate = [];
@@ -18,14 +18,16 @@ export class RetrieveCarService {
       CarUtilities.validate(data, carValidateOptions);
     }
 
-    if (category) {
+    if (categories) {
       const categoryValidateOptions = { pick: ['name'] as (keyof Category)[] };
-      CategoryUtilities.validate({ name: data.category }, categoryValidateOptions);
+      categories.split(',').forEach((category) => {
+        CategoryUtilities.validate({ name: category }, categoryValidateOptions);
+      });
     }
 
     if (priceRange) {
       try {
-        const [minPrice, maxPrice] = priceRange.split('-');
+        const [minPrice, maxPrice] = priceRange.split(',');
 
         if (minPrice && maxPrice) {
           const minPriceNumber = Number(minPrice);

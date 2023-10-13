@@ -5,11 +5,11 @@ import { RetrieveCarBrandsService } from 'services/cars/RetrieveCarBrandsService
 
 export class CarController {
   async getAvailableCars(request: Request, response: Response): Promise<Response> {
-    const { brand, name, category, priceRange } = request.query as Record<string, any>;
+    const { brand, name, categories, priceRange } = request.query as Record<string, any>;
 
     const retrieveCarService = new RetrieveCarService();
 
-    const cars = await retrieveCarService.execute({ brand, name, category, priceRange });
+    const cars = await retrieveCarService.execute({ brand, name, categories, priceRange });
 
     return response.json(cars);
   }

@@ -9,6 +9,7 @@ async function main() {
       name: 'gas',
       description: 'Carro movido a gasolina',
       icon: 'gas',
+      displayName: 'Gasolina',
     },
   });
 
@@ -19,6 +20,7 @@ async function main() {
       name: 'electric',
       description: 'Carro movido a eletricidade',
       icon: 'electric',
+      displayName: 'Elétrico',
     },
   });
 
@@ -29,6 +31,7 @@ async function main() {
       name: 'alcohol',
       description: 'Carro movido a alcool',
       icon: 'alcohol',
+      displayName: 'Álcool',
     },
   });
 
