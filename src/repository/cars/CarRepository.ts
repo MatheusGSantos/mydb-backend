@@ -5,7 +5,7 @@ import { AvailablesCarsRequestDTO } from 'dtos/cars/AvailablesCarsRequestDTO';
 
 type WhereClause = {
   available: boolean;
-  name?: { contains: string | undefined };
+  name?: { contains: string | undefined; mode?: 'insensitive' };
   brand?: { contains: string | undefined };
   category?: { name: { in: string[] | undefined } };
   dailyRate?: { gte: number; lte: number };
@@ -20,6 +20,7 @@ export default class CarRepository implements ICarsRepository {
       available: true,
       name: {
         contains: name,
+        mode: 'insensitive',
       },
       brand: {
         contains: brand,
