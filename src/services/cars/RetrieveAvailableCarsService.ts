@@ -6,7 +6,11 @@ import CarRepository from 'repository/cars/CarRepository';
 export class RetrieveCarService {
   async execute(data: AvailablesCarsRequestDTO) {
     const carsRepository = new CarRepository();
-    const { brand, name, categories, priceRange } = data;
+    const { brand, name, categories, priceRange, id } = data;
+
+    if (id) {
+      CarUtilities.validate(data, { pick: ['id'] as (keyof Car)[] });
+    }
 
     if (brand || name) {
       const toValidate = [];

@@ -13,7 +13,35 @@ type WhereClause = {
 
 export default class CarRepository implements ICarsRepository {
   async getAvailableCars(data: AvailablesCarsRequestDTO) {
-    const { name, brand, categories, priceRange } = data;
+    const { name, brand, categories, priceRange, id } = data;
+
+    if (id) {
+      const car = await prisma.cars.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          brand: true,
+          available: true,
+          carImage: true,
+          dailyRate: true,
+          description: true,
+          licensePlate: true,
+          fineAmount: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
+        },
+      });
+
+      return car ? [car] : [];
+    }
 
     // Initialize the where clause with the filters that are always applied
     const whereClause: WhereClause = {
