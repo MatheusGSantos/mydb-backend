@@ -10,7 +10,11 @@ export default class RentalsRepository implements IRentalsRepository {
         id: rentalId,
       },
       include: {
-        car: true,
+        car: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
 
@@ -31,7 +35,11 @@ export default class RentalsRepository implements IRentalsRepository {
         userId,
       },
       include: {
-        car: true,
+        car: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
 
