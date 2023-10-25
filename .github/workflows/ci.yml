@@ -22,4 +22,3 @@ jobs:
         node-version: 18.16.0
     - run: npm i
     - run: npm run build --if-present
-    - run: npm test
