@@ -1,45 +1,36 @@
 import { Request, Response } from 'express';
+import { UserUtilities } from 'models/User';
 import { CreateUserService } from 'services/user/CreateUserService.js';
-import { DeleteUserService } from 'services/user/DeleteUserService';
-import { ShowUserService } from 'services/user/ShowUserService.js';
-import { UpdateUserService } from 'services/user/UpdateUserService';
+import { ShowProfileService } from 'services/user/ShowProfileService';
+import { UpdateProfileService } from 'services/user/UpdateProfileService';
 
 export class UserController {
-  async show(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params;
-    const showUserService = new ShowUserService();
+  async showProfile(request: Request, response: Response): Promise<Response> {
+    const { id: userId } = request.user;
+    const showProfileService = new ShowProfileService();
 
-    const users = await showUserService.execute(parseInt(userId));
+    const user = await showProfileService.execute(userId);
 
-    return response.json(users);
+    return response.json(user);
   }
 
   async create(request: Request, response: Response): Promise<Response> {
+    const data = { ...UserUtilities.getSafeObject(request.body), confirmPassword: request.body?.confirmPassword };
     const createUserService = new CreateUserService();
 
-    await createUserService.execute(request.body);
+    await createUserService.execute(data);
 
     return response.status(201).json();
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params;
-    const { name, email } = request.body;
+  async updateProfile(request: Request, response: Response): Promise<Response> {
+    const { id: userId } = request.user;
+    const { name, driverLicense } = request.body;
 
-    const updateUser = new UpdateUserService();
+    const updateProfileService = new UpdateProfileService();
 
-    await updateUser.execute(userId, { name, email });
+    await updateProfileService.execute(userId, { name, driverLicense });
 
     return response.status(200).json();
-  }
-
-  async delete(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params;
-
-    const deleteUser = new DeleteUserService();
-
-    await deleteUser.execute(userId);
-
-    return response.status(204).json();
   }
 }

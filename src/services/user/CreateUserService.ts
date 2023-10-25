@@ -1,30 +1,44 @@
-import { prisma } from 'database/index.js';
-import { User } from 'models/User.js';
 import AppError from 'utils/AppError.js';
 import { hash } from 'bcryptjs';
+import { UserUtilities } from 'models/User';
+import { NewUserDTO } from 'dtos/users/NewUserDTO';
+import UsersRepository from 'repository/users/UsersRepository';
+
+interface RequestDTO extends NewUserDTO {
+  confirmPassword: string;
+}
 
 export class CreateUserService {
-  async execute(user: User) {
-    const { name, email, password } = user;
+  async execute(data: RequestDTO) {
+    const { name, email, password, confirmPassword, driverLicense } = data;
 
-    if (!name || !email || !password) throw new AppError('Missing required fields', 400);
-
-    const userExists = await prisma.user.findUnique({
-      where: {
+    UserUtilities.validate(
+      {
+        name,
         email,
+        password,
+        driverLicense,
       },
-    });
+      {
+        omit: ['id', 'isAdmin'],
+      },
+    );
+
+    if (password !== confirmPassword) throw new AppError('Passwords do not match', 400);
+
+    const usersRepository = new UsersRepository();
+
+    const userExists = await usersRepository.findByEmail(email);
 
     if (userExists) throw new AppError('A user with this email already exists', 400);
 
     const hashedPassword = await hash(password, 8);
 
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
+    await usersRepository.saveNewUser({
+      name,
+      email,
+      password: hashedPassword,
+      driverLicense,
     });
   }
 }
