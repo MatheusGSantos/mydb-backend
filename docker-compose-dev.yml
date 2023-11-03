@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    ports:
+      - 5432:5432
+    
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "mydb"
+    
+    volumes:
+      - "./docker/db/pgdata:/var/lib/postgresql/data"
+  rentx:
+    container_name: rentx
+    image: matheusgama/rentx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./prisma:/usr/src/app/prisma
+    depends_on:
+      - db

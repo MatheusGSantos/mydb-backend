@@ -1,14 +1,15 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
+  rentx:
+    container_name: rentx
+    image: matheusgama/rentx
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 5432:5432
-    
+      - "8080:8080"
     environment:
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "mydb"
-    
+      NODE_ENV: development
     volumes:
-      - "./docker/db/pgdata:/var/lib/postgresql/data"
+      - ./src:/usr/src/app/src
