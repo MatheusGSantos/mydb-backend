@@ -10,7 +10,13 @@ import { logger } from 'utils/logger';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: 'https://rentxwebapp.netlify.app',
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 if (['development', undefined].includes(process.env.NODE_ENV)) {
   app.use(logger);
