@@ -11,12 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-const corsOptions = {
-  origin: 'https://rentxwebapp.netlify.app',
-  optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 if (['development', undefined].includes(process.env.NODE_ENV)) {
   app.use(logger);
@@ -32,7 +27,7 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, _: NextFunction)
     });
   }
 
-  console.log(err)
+  console.log(err);
 
   return res.status(500).json({
     status: 'error',
